@@ -1,0 +1,17 @@
+proxies:
+- name: BEONNGITHUB
+  type: vmess
+  server: 104.17.3.81
+  port: 443
+  uuid: ecb1a8dc-692c-4647-8ddd-ab82776c2637
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
+  servername: jg.srpcom.online
+  ws-opts:
+    path: /vmessws
+    headers:
+      Host: jg.srpcom.online
+  udp: true
