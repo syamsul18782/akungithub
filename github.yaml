@@ -1,17 +1,180 @@
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: ''
+bind-address: '*'
+unified-delay: true
+profile:
+  store-selected: true
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: redir-host
+  listen: 0.0.0.0:7874
+  nameserver:
+  - 8.8.8.8
+  - 1.0.0.1
+  - https://dns.google/dns-query
+  fallback:
+  - 1.1.1.1
+  - 8.8.4.4
+  - https://cloudflare-dns.com/dns-query
+  - 112.215.203.254
+  default-nameserver:
+  - 8.8.8.8
+  - 1.1.1.1
+  - 112.215.203.254
 proxies:
-- name: BEONNGITHUB
+- name: BEONGITHUBB
   type: vmess
   server: 104.17.3.81
-  port: 443
+  port: 80
   uuid: ecb1a8dc-692c-4647-8ddd-ab82776c2637
   alterId: 0
   cipher: auto
-  tls: true
+  tls: false
   skip-cert-verify: true
   network: ws
-  servername: jg.srpcom.online
   ws-opts:
     path: /vmessws
     headers:
       Host: jg.srpcom.online
   udp: true
+- name: BEONGITHUBB-17
+  type: vmess
+  server: 104.17.3.81
+  port: 80
+  uuid: ecb1a8dc-692c-4647-8ddd-ab82776c2637
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /vmessws
+    headers:
+      Host: jg.srpcom.online
+  udp: true
+- name: NATAN270
+  server: 104.17.3.81
+  port: 8880
+  type: vless
+  uuid: ae1d2a7a-6e40-4ce2-b66e-adc37894782d
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  servername: ca.srpcom.online
+  network: ws
+  ws-opts:
+    path: /vlessws
+    headers:
+      Host: ca.srpcom.online
+  udp: true
+- name: atmaster
+  type: vmess
+  server: 104.17.3.81
+  port: 80
+  uuid: 7e3fb163-f4c1-469f-b57d-e841284d4eff
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /vmessws
+    headers:
+      Host: at.srpcom.online
+  udp: true
+- name: D03
+  server: 104.17.3.81
+  port: 443
+  type: trojan
+  password: 8e32d043-33a4-486f-af97-f3c23efb2fec
+  skip-cert-verify: true
+  sni: do3.srpcom.online
+  network: ws
+  ws-opts:
+    path: /trojanws
+    headers:
+      Host: do3.srpcom.online
+  udp: true
+- name: doempat
+  type: vmess
+  server: 104.17.3.81
+  port: 80
+  uuid: 3a10fcbf-607b-4521-801b-28f21af78a99
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /vmessws
+    headers:
+      Host: do4.srpcom.online
+  udp: true
+- name: amazonaw
+  type: vmess
+  server: 104.17.3.81
+  port: 80
+  uuid: 9bc32dbb-2756-456a-9d45-86afd0770aa0
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /vmessws
+    headers:
+      Host: aw.srpcom.online
+  udp: true
+- name: hostingermaster
+  server: 104.17.3.81
+  port: 443
+  type: trojan
+  password: 2c6687bb-37bb-48a3-a1ad-d93da9364b8b
+  skip-cert-verify: true
+  sni: hst.srpcom.online
+  network: ws
+  ws-opts:
+    path: /trojanws
+    headers:
+      Host: hst.srpcom.online
+  udp: true
+proxy-groups:
+- name: Friendly_Teams
+  type: select
+  proxies:
+  - BEONGITHUBB
+  - BEONGITHUBB-17
+  - NATAN270
+  - atmaster
+  - D03
+  - doempat
+  - amazonaw
+  - hostingermaster
+  - BEST-PING
+  - DIRECT
+- name: BEST-PING
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+  - BEONGITHUBB
+  - BEONGITHUBB-17
+  - NATAN270
+  - atmaster
+  - D03
+  - doempat
+  - amazonaw
+  - hostingermaster
+rules:
+- MATCH,Friendly_Teams
